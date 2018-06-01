@@ -14,7 +14,7 @@ import com.mingbaipintu.GameManager;
 import com.mingbaipintu.R;
 
 /**
- * Created by DanDan on 2015/11/9.
+ * Created by CCX on 2015/11/9.
  */
 public class GameWinView extends RelativeLayout implements View.OnClickListener {
     private ImageView mGameReviewView;
@@ -23,7 +23,7 @@ public class GameWinView extends RelativeLayout implements View.OnClickListener 
     private Button mNextButton;
     public GameWinView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.game_win_view, this);
+        LayoutInflater.from(context).inflate(R.layout.game_win_view, this);//加载布局
 
         mGameReviewView= (ImageView) findViewById(R.id.gameReviewView);
         mMarkText= (TextView) findViewById(R.id.markText);
@@ -37,11 +37,11 @@ public class GameWinView extends RelativeLayout implements View.OnClickListener 
         GameManager gameManager =GameManager.getInstance();
         switch (v.getId()) {
             case R.id.againButton:
-                gameManager.gameReady();
+                gameManager.gameReady(); //重玩游戏
                 break;
             case R.id.nextButton:
                 if (gameManager.IsCustom()) {
-                    gameManager.startChooseActivity();
+                    gameManager.startChooseActivity();  //自定义模式
                 } else {
                     gameManager.setCurrentImageFromResource(gameManager.getmLevel());
                     gameManager.splitBitmap();

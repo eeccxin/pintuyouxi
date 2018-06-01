@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by DanDan on 2015/11/8.
+ * Created by CCX on 2018/05/28.
  */
 public class ListViewAdapter extends ArrayAdapter<String> {
     private int mResourceId;
@@ -41,7 +41,7 @@ public class ListViewAdapter extends ArrayAdapter<String> {
                 break;
         }
         if (position > temp) {
-            textView.setTextColor(Color.RED);
+            textView.setTextColor(Color.WHITE);
         }
         return view;
     }

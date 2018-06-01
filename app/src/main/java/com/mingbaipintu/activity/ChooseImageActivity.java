@@ -28,13 +28,11 @@ public class ChooseImageActivity extends Activity {
     public static final String IMAGE_SOURCE_ID_INDEX = "imageID_Index";
     private int mImagesCount;
     public static int[] mImagesId = {
-            R.drawable.cat_144_album_4,
+            R.drawable.ablum,
             R.drawable.p1, R.drawable.p2, R.drawable.p3, R.drawable.p4, R.drawable.p5,
             R.drawable.p6, R.drawable.p7, R.drawable.p8, R.drawable.p9, R.drawable.p10,
             R.drawable.p11, R.drawable.p12, R.drawable.p13, R.drawable.p14, R.drawable.p15,
-            R.drawable.p16, R.drawable.p17, R.drawable.p18, R.drawable.p19, R.drawable.p20,
-            R.drawable.p21, R.drawable.p22, R.drawable.p23, R.drawable.p24, R.drawable.p25,
-            R.drawable.p26
+            R.drawable.p16
     };
 
     private LruCache mMemoryCache;
@@ -53,13 +51,13 @@ public class ChooseImageActivity extends Activity {
         mImageViewHeight = 14 * mImageViewWidth / 9;
 
         /*
-        共有27张图，第一张,1~25,和最后一张(为了显示美观)
-        getmLevel() 最大返回26，所以mImagesCount最大为27
+        共有15张图，第一张,1~15,和最后一张(为了显示美观)
+        getmLevel() 最大返回15，所以mImagesCount最大为16
          */
         mImagesCount = GameManager.getInstance().getmLevel();
-        mImagesCount++;//忽略第一张图
-        if (mImagesCount > 27) {
-            mImagesCount = 27;
+        mImagesCount=16;//忽略第一张图*/
+        if (mImagesCount > 16) {
+            mImagesCount = 16;
         }
         int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         int cacheSize = maxMemory / 20;
@@ -70,7 +68,6 @@ public class ChooseImageActivity extends Activity {
                 return value.getByteCount() / 1024;
             }
         };
-
         mGridView = (GridView) findViewById(R.id.gridView);
         mGridView.setAdapter(new ImageAdapter(this));
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

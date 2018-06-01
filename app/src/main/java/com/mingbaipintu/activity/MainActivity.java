@@ -28,7 +28,7 @@ import java.io.File;
 public class MainActivity extends Activity {
 
     private static final String LAST_IMAGE_INDEX_FROM_APP = "lastImageFromApp";
-    private static final String DIFFICULTY = "difficulty";
+    private static final String DIFFICULTY = "difficulty";//难度
     private static final String NULL_STR = " ";
     private final int CHOOSE_FROME_PHOTO_ALBUM = 1;
 
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         int level = mSharedPreferences.getInt(LEVEL, 1);
         int diff = mSharedPreferences.getInt(DIFFICULTY, 3);
         mGameManager.setmLevel(level);
-        if (level < 26) {
+        if (level < 16) {
             mGameManager.setmIsCustom(false);
             mGameManager.setCurrentImageFromResource(mGameManager.getmLevel());
         } else {

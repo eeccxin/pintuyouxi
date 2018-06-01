@@ -20,8 +20,13 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Created by DanDan on 2015/11/9.
+ * Created by CCX on 2018/05/28.
  */
+
+/**
+ *界面管理模块
+ */
+
 public class UIManager {
     private static UIManager mUIManager=null;
     private Context mContext;
@@ -42,7 +47,7 @@ public class UIManager {
             mUIManager = new UIManager();
         }
         return mUIManager;
-    }
+    }   //获取类实例，相当于构造函数
 
     public void operateSettingList() {
         if(mSettingListView.getVisibility()==View.INVISIBLE) {
@@ -68,7 +73,7 @@ public class UIManager {
         final Activity mainActivity= GameManager.getInstance().getMainActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
         builder.setMessage("确认退出吗?");
-        builder.setTitle("提示");
+        builder.setTitle("提醒");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -101,7 +106,7 @@ public class UIManager {
 
     public void showGamingView() {
         mGameView.showGamingView();
-    }
+    }//显示正在游戏的视图
 
     public void showGameWillBeginView(Bitmap currentImage) {
         mGameView.showGameWillBeginView(currentImage);
@@ -131,7 +136,7 @@ public class UIManager {
             ts_s = "0" + ts_s;
         String ts = ts_m + ":" + ts_s;
         mTitleView.setTitleText(ts);
-    }
+    }  //设置（显示）计时器时间
 
     public void setTitleText(String str) {
         mTitleView.setTitleText(str);
@@ -155,7 +160,7 @@ public class UIManager {
     }
 
     public void exchangeImage(int id, float rawX, float rawY, int width, int height) {
-        int diff = GameManager.getInstance().getmDiff();
+        int diff = GameManager.getInstance().getmDiff();//获取难度
         int x = (int) rawX;
         int y = (int) rawY - mTitleOffY;
         int index_X = x / width;
@@ -169,6 +174,7 @@ public class UIManager {
         GameManager gameManager = GameManager.getInstance();
         int bitmapIndex1 = mImageFragmentViews[id].getmBitmapIndex();
         int bitmapIndex2 = mImageFragmentViews[index].getmBitmapIndex();
+        //位图片的交换
         mImageFragmentViews[id].setImage(gameManager.getBitmapChip(bitmapIndex2));
         mImageFragmentViews[id].setmBitmapIndex(bitmapIndex2);
         mImageFragmentViews[index].setImage(gameManager.getBitmapChip(bitmapIndex1));
@@ -182,7 +188,7 @@ public class UIManager {
         if (flowImage2 != null) {
             flowImage2.setImage(gameManager.getBitmapChip(bitmapIndex1));
         }
-        checkIsWin(gameManager.getmDiff());
+        checkIsWin(gameManager.getmDiff());//检查是否完成
     }
     private void checkIsWin(int diff) {
         boolean is = true;
@@ -209,7 +215,7 @@ public class UIManager {
     }
 
     public void moveFlowImage(int id, float rawX, float rawY) {
-        FlowImage flowImage = mFlowImageMap.get(id);
+        FlowImage flowImage = mFlowImageMap.get(id);//根据ID获取流图实例
         if (flowImage != null && flowImage.getVisibility() == View.VISIBLE) {
             float x = rawX;
             float y = rawY;
@@ -232,6 +238,8 @@ public class UIManager {
     public void removeFloawImageFromGameView(int id) {
         mGameView.removeView(mFlowImageMap.get(id));
     }
+
+    //打乱子图
     public void initImageFragmentViews() {
         GameManager gameManager = GameManager.getInstance();
         int count=gameManager.getmDiff();

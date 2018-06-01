@@ -1,6 +1,9 @@
 package com.mingbaipintu.customLayout;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,13 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by DanDan on 2015/10/13.
+ * Created by CCX on 2018/05/28.
+ */
+/**
+ * 继承自ListView，用于定义Setting菜单各个子项的点击功能及功能实现的接口
  */
 public class SettingList extends ListView {
 
-    public static final String CUSTOM = "自定义";
-    public static final String FINGHT = "闯关";
-    private static final String[] DIFFICULTY = {" 简单", " 普通", " 困难", " 大师", " 大神"};//3，5，7，9，10
+    public static final String CUSTOM = "选图";
+    public static final String FINGHT = "闯关";//
+    private static final String[] DIFFICULTY = {"(3x3)", "(4x4)", "(5x5)", "(7x7)", "(9x9)"};
+
 
     public SettingList(Context context) {
         super(context);
@@ -45,17 +52,43 @@ public class SettingList extends ListView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setVisibility(INVISIBLE);
-                GameManager gameManager = GameManager.getInstance();
+               final  GameManager gameManager = GameManager.getInstance();
                 int diff=0;
                 switch (position) {
                     case 0:
                         gameManager.startChooseActivity();
                         break;
                     case 1:
-                        if (gameManager.getmLevel() > 25) {
-                            Toast.makeText(gameManager.getMainActivity(), "已通关", Toast.LENGTH_LONG).show();
+                        if (gameManager.getmLevel() > 15) {
+                          /* Toast.makeText(gameManager.getMainActivity(), "已通关", Toast.LENGTH_LONG).show();
+                            return;*/
+                      final Activity mainActivity= gameManager.getMainActivity();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+                            builder.setMessage("已通关，是否重新闯关?");
+                            builder.setTitle("提醒");
+                            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    gameManager.setmLevel(1);
+                                    gameManager.setmIsCustom(false);
+                                    UpdateTitleTimer.getInstance().concelTimer();
+                                    gameManager.setCurrentImageFromResource(gameManager.getmLevel());
+                                    gameManager.caculatemDiff();
+                                    UIManager.getInstance().initGamingView(gameManager.getmDiff());
+                                    gameManager.splitBitmap();
+                                    gameManager.gameReady();
+                                }
+                            });
+                            builder.create().show();
                             return;
-                        }
+                        }//共15关
                         else {
                             gameManager.setmIsCustom(false);
                             UpdateTitleTimer.getInstance().concelTimer();
@@ -70,35 +103,22 @@ public class SettingList extends ListView {
                         diff=3;
                         break;
                     case 3:
-                        diff=5;
+                        diff=4;
                         break;
                     case 4:
-                        diff=7;
+                        diff=5;
                         break;
                     case 5:
-                        diff=9;
+                        diff=7;
                         break;
                     case 6:
-                        diff=10;
+                        diff=9;
                         break;
                 }
                 if(diff!=0) {
-                    if (diff > gameManager.getmCurrentMaxDiff()) {
-                        if (diff == 7) {
-                            Toast.makeText(gameManager.getMainActivity(), "该难度将在第11关解锁", Toast.LENGTH_LONG).show();
-                        }
-                        if (diff == 9) {
-                            Toast.makeText(gameManager.getMainActivity(), "该难度将在第16关解锁", Toast.LENGTH_LONG).show();
-                        }
-                        if (diff == 10) {
-                            Toast.makeText(gameManager.getMainActivity(), "该难度将在第21关解锁", Toast.LENGTH_LONG).show();
-                        }
-                        Util.MyLog_e_int("diff", diff);
-                        return;
-                    }
-                    if (diff > 9) {
-                        Toast.makeText(gameManager.getMainActivity(), "你是人才(^_^)", Toast.LENGTH_SHORT).show();
-                    }
+                   // if (diff > 9) {
+                    //    Toast.makeText(gameManager.getMainActivity(), "你是人才(^_^)", Toast.LENGTH_SHORT).show();
+                    //}
                     gameManager.setmDiff(diff);
                     UpdateTitleTimer.getInstance().concelTimer();
                     UIManager.getInstance().initGamingView(diff);

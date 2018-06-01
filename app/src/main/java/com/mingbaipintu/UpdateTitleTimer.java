@@ -6,13 +6,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by DanDan on 2015/11/9.
+ * Created by CCX on 2018/05/28.
  */
 
 public class UpdateTitleTimer {
     public static final String TIMER_BROADCAST="com.mingbaipintu.TIMER_BROADCAST";
     public static final String TIME="time";
-    private Timer mTimer;
+    private Timer mTimer;//计时器
     private MyTimerTask myTimerTask;
     private int mUserdTime=0;
     private boolean mIsPause=false;
@@ -42,7 +42,7 @@ public class UpdateTitleTimer {
         mUserdTime=time;
         mTimer = new Timer();
         myTimerTask=new MyTimerTask();
-        mTimer.schedule(myTimerTask, 1000, 1000);
+        mTimer.schedule(myTimerTask, 1000, 1000);//每1000ms执行一次进程
 
     }
     public void pause()

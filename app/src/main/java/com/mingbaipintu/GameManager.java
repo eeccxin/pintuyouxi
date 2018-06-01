@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by DanDan on 2015/11/9.
+ * Created by CCX on 2018/05/28.
  */
 public class GameManager {
     private static GameManager mGameManager=null;
@@ -35,7 +35,7 @@ public class GameManager {
 
     private GameManager() {
         mUIManager=UIManager.getInstance();
-        mLocalBroadcastManager=LocalBroadcastManager.getInstance(MyApplication.getContextObject());
+        mLocalBroadcastManager=LocalBroadcastManager.getInstance(MyApplication.getContextObject());//本地广播管理器
         mIsCustom=false;
         mLevel=1;
         mIsGaming=false;
@@ -50,7 +50,7 @@ public class GameManager {
     public boolean ismIsGaming()
     {
         return mIsGaming;
-    }
+    }//??
     public void setScreenPixel(int widthPixel,int heightPixel)
     {
         this.mWidthPixel=widthPixel;
@@ -89,8 +89,8 @@ public class GameManager {
     }
 
     public void setmLevel(int level) {
-        if(level>26)
-            level=26;
+        if(level>15)
+            level=15;
         this.mLevel = level;
         caculatemDiff();
     }
@@ -117,7 +117,7 @@ public class GameManager {
             mUIManager.setTitleText("");
         }else
         {
-            mUIManager.setTitleText("第" + mLevel + "关(共25关)");
+            mUIManager.setTitleText("第" + mLevel + "关(共15关)");
         }
         mUIManager.showGameView(mCurrentImage);
     }
@@ -135,7 +135,7 @@ public class GameManager {
                 mUIManager.setGameWinAgainButtonVisibility(true);
                 mUIManager.setGameWinNextButtonText("换一张");
             } else {
-                if (mLevel == 25) {
+                if (mLevel == 15) {
                     mUIManager.setGameWinNextButtonText("换一张");
                     mIsCustom=true;
                 }
@@ -154,55 +154,59 @@ public class GameManager {
             mUIManager.showGameWinView(mCurrentImage);
         }
     }
+    //根据关卡设置难度，每3关一个难度
     public void caculatemDiff() {
-        if(mLevel<26) {
-            switch ((mLevel - 1) / 5) {
+        if(mLevel<16) {
+            switch ((mLevel - 1) / 3) {
                 case 0:
                     setmDiff(3);
-                    mCurrentMaxDiff = 5;
+                    mCurrentMaxDiff =3;
                     break;
                 case 1:
+                    setmDiff(4);
+                    mCurrentMaxDiff = 4;
+                    break;
+                case 2:
                     setmDiff(5);
                     mCurrentMaxDiff = 5;
                     break;
-                case 2:
-                    setmDiff(7);
-                    mCurrentMaxDiff = 7;
-                    break;
-                case 3:
-                    setmDiff(9);
-                    mCurrentMaxDiff = 9;
-                    break;
+               case 3:
+                  setmDiff(7);
+                   mCurrentMaxDiff = 7;
+                   break;
                 case 4:
-                    setmDiff(10);
-                    mCurrentMaxDiff = 10;
+                    setmDiff(9);
+                   mCurrentMaxDiff = 9;
                     break;
             }
         }else
         {
-            setmDiff(10);
-            mCurrentMaxDiff = 10;
+            setmDiff(3);
+            mCurrentMaxDiff = 3;
         }
     }
+
+    //拆分图片
     public  void splitBitmap() {
         int width = mCurrentImage.getWidth();
         int height = mCurrentImage.getHeight();
         int w = width / mDiff;
-        int h = height / mDiff;
+        int h = height / mDiff;//根据难度设置子图的宽高
 
         for (int i = 0; i < mDiff; ++i) {
             for (int j = 0; j < mDiff; j++) {
-                recycleBitmap(mBitmapChips[i * mDiff + j]);
+                recycleBitmap(mBitmapChips[i * mDiff + j]);//回收图片占用的资源
                 mBitmapChips[i * mDiff + j] = Bitmap.createBitmap(mCurrentImage, j * w, i * h, w, h);
             }
         }
-        System.gc();
+        System.gc();// garbage collection,垃圾回收
     }
     public Bitmap getBitmapChip(int index)
     {
         return mBitmapChips[index];
     }
 
+    //设置当前的图片
     public void setCurrentImageFromResource(int index)
     {
         Resources res = MyApplication.getContextObject().getResources();
@@ -220,6 +224,8 @@ public class GameManager {
             return;
         }
     }
+
+    //获取本地图片
     public void setCurrentImageFromUri(Uri uri)
     {
         int offY=mUIManager.getmTitleOffY();

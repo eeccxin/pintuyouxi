@@ -13,7 +13,8 @@ import com.mingbaipintu.GameManager;
 import com.mingbaipintu.R;
 
 /**
- * Created by DanDan on 2015/11/9.
+ * Created by CCX on 2018/05/28.
+ *
  */
 public class GameView extends FrameLayout implements View.OnClickListener{
     private TableLayout mGamingView;
@@ -38,7 +39,7 @@ public class GameView extends FrameLayout implements View.OnClickListener{
     }
     public void clearGamingView()
     {
-        mGamingView.removeAllViews();
+        mGamingView.removeAllViews(); //清除tableView中的内容
     }
     public void addItemToGamingView(View v)
     {
@@ -48,7 +49,7 @@ public class GameView extends FrameLayout implements View.OnClickListener{
     public void showGamingView()
     {
         mGamingView.setVisibility(VISIBLE);
-        mGameWillBeginView.setVisibility(INVISIBLE);
+        mGameWillBeginView.setVisibility(INVISIBLE); //将游戏开始图片设置为不可见，显示正在游戏的视图
     }
     public void showGameWillBeginView(Bitmap currentImage)
     {

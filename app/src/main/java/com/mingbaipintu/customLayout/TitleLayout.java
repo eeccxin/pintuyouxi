@@ -13,7 +13,10 @@ import com.mingbaipintu.Util;
 
 
 /**
- * Created by DanDan on 2015/10/5.
+ * Created by CCX on 2018/05/28.
+ */
+/**
+ * 继承自LinearLayout，用于标题界面的设计以及其中“Back”及“Setting”按钮点击事件的接口
  */
 public class TitleLayout extends LinearLayout implements View.OnClickListener {
     public static final int TITLE_OFF_DP = 45;
